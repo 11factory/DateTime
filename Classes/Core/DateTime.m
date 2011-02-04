@@ -3,6 +3,13 @@
 @implementation NSDate (DateTime)
 int DAY_IN_SECONDS = 60 * 60 * 24;
 
++(NSDateFormatter *) utcFormatterWithFormat:(NSString *) format {
+	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]autorelease];
+	[dateFormatter setDateFormat:format];
+	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+	return dateFormatter;
+}
+
 +(id) yesterday {
 	return [[NSDate date] dateByAddingDays:-1];
 }
@@ -12,28 +19,23 @@ int DAY_IN_SECONDS = 60 * 60 * 24;
 }
 
 +(id) dateWithYear:(int)year month:(int)month andDay:(int)day {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]autorelease];
-	[dateFormatter setDateFormat:@"yyyy-MM-dd"];
-	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+	NSDateFormatter *dateFormatter = [NSDate utcFormatterWithFormat:@"yyyy-MM-dd"];
 	return [dateFormatter dateFromString:[NSString stringWithFormat:@"%d-%d-%d", year, month, day]];	
 }
 
 -(bool) isToday {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]autorelease];
-	[dateFormatter setDateFormat:@"yyyy-MM-dd"];
-	NSDate *today = [NSDate date];
-	return [[dateFormatter stringFromDate:today] isEqualToString:[dateFormatter stringFromDate:self]];
+	return [[NSDate date] isSameDayThanDate:self];
 }
 
 -(id) dateByAddingDays:(int)numberOfDays {
 	return [self dateByAddingTimeInterval:DAY_IN_SECONDS * numberOfDays];
 }
 
--(int) daysFromDate:(NSDate *)date {
+-(float) daysFromDate:(NSDate *)date {
 	return [self timeIntervalSinceDate:date] / DAY_IN_SECONDS;	
 }
 
--(int) daysToDate:(NSDate *)date {
+-(float) daysToDate:(NSDate *)date {
 	return [date timeIntervalSinceDate:self] / DAY_IN_SECONDS;		
 }
 
@@ -54,11 +56,18 @@ int DAY_IN_SECONDS = 60 * 60 * 24;
 }
 
 -(bool) isSameDayThanDate:(NSDate *)date {
-	return [self daysFromDate:date] == 0;
+	float days = [self daysFromDate:date];
+	return days >= 0.0 && days < 1.0;
 }
 
 -(bool) isSameDateTimeThanDateTime:(NSDate *)dateTime {
 	return [self timeIntervalSinceDate:dateTime] == 0;
 }
+
+-(int) day { return [[[NSDate utcFormatterWithFormat:@"dd"] stringFromDate:self] intValue]; }
+
+-(int) month { return [[[NSDate utcFormatterWithFormat:@"MM"] stringFromDate:self] intValue]; }
+
+-(int) year { return [[[NSDate utcFormatterWithFormat:@"yyyy"] stringFromDate:self] intValue]; }
 
 @end

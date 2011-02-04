@@ -8,12 +8,15 @@
 
 -(bool) isToday;
 -(id) dateByAddingDays:(int)days;
--(int) daysFromDate:(NSDate *)date;
--(int) daysToDate:(NSDate *)date;
+-(float) daysFromDate:(NSDate *)date;
+-(float) daysToDate:(NSDate *)date;
 -(bool) isAfterDate:(NSDate *)date;
 -(bool) isAfterDateTime:(NSDate *)dateTime;
 -(bool) isBeforeDate:(NSDate *)date;
 -(bool) isBeforeDateTime:(NSDate *)dateTime;
 -(bool) isSameDayThanDate:(NSDate *)date;
 -(bool) isSameDateTimeThanDateTime:(NSDate *)dateTime;
+-(int) day;
+-(int) month;
+-(int) year;
 @end

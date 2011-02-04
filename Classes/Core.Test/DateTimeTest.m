@@ -6,11 +6,13 @@ int DAY = 60 * 60 * 24;
 NSDate *now;
 NSDate *tomorrow;
 NSDate *nowPlus30Seconds;
+NSDate *fev052011;
 
 -(void) setUp {
 	now = [NSDate date];
 	tomorrow = [NSDate tomorrow];
 	nowPlus30Seconds = [now dateByAddingTimeInterval:30];
+	fev052011 = [NSDate dateWithTimeIntervalSince1970:15010 * DAY];
 }
 
 -(void) assertDate:(NSDate *)actual isEqualToDate:(NSDate *)expected {
@@ -75,8 +77,13 @@ NSDate *nowPlus30Seconds;
 }
 
 -(void) testCanCreateADate {
-	NSDate *nov212011 = [NSDate dateWithTimeIntervalSince1970:15010 * DAY];
-	[self assertDate:[NSDate dateWithYear:2011 month:2 andDay:5] isEqualToDate:nov212011];
+	[self assertDate:[NSDate dateWithYear:2011 month:2 andDay:5] isEqualToDate:fev052011];
+}
+
+-(void) testCanGetDateData {
+	STAssertEqualObjects([NSNumber numberWithInt:[fev052011	day]], [NSNumber numberWithInt:5], nil);
+	STAssertEqualObjects([NSNumber numberWithInt:[fev052011	month]], [NSNumber numberWithInt:2], nil);
+	STAssertEqualObjects([NSNumber numberWithInt:[fev052011	year]], [NSNumber numberWithInt:2011], nil);
 }
 
 @end
