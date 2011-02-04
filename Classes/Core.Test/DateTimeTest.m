@@ -74,4 +74,9 @@ NSDate *nowPlus30Seconds;
 	STAssertFalse([now isSameDateTimeThanDateTime:nowPlus30Seconds], nil);
 }
 
+-(void) testCanCreateADate {
+	NSDate *nov212011 = [NSDate dateWithTimeIntervalSince1970:15010 * DAY];
+	[self assertDate:[NSDate dateWithYear:2011 month:2 andDay:5] isEqualToDate:nov212011];
+}
+
 @end

@@ -11,6 +11,13 @@ int DAY_IN_SECONDS = 60 * 60 * 24;
 	return [[NSDate date] dateByAddingDays:1];
 }
 
++(id) dateWithYear:(int)year month:(int)month andDay:(int)day {
+	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]autorelease];
+	[dateFormatter setDateFormat:@"yyyy-MM-dd"];
+	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+	return [dateFormatter dateFromString:[NSString stringWithFormat:@"%d-%d-%d", year, month, day]];	
+}
+
 -(bool) isToday {
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]autorelease];
 	[dateFormatter setDateFormat:@"yyyy-MM-dd"];
